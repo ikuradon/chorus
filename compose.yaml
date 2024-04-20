@@ -1,0 +1,23 @@
+services:
+  chorus:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - type: bind
+        source: ./config.toml
+        target: /config/config.toml
+        read_only: true
+      - type: volume
+        source: data
+        target: /data/
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    environment:
+      - TUNNEL_TOKEN
+    command: ["tunnel", "run"]
+    network_mode: service:chorus
+
+volumes:
+  data: {}

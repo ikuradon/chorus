@@ -1,2 +1,4 @@
 /target
 /tls/
+.env*
+!.env.sample
